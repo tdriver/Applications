@@ -1,14 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
-using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace PhotoImporter
@@ -39,7 +34,7 @@ namespace PhotoImporter
 
         private void button1_Click(object sender, EventArgs e)
         {
-            label1.Text = "Working...";
+            label1.Text = @"Working...";
             // process the photos in the root directory
             DirectoryInfo dir = new DirectoryInfo(tbImportPicsFrom.Text);
             ProcessDirectory(dir, tbImportPicsFrom.Text,tbImportPicsTo.Text,tbImportVideosTo.Text);
@@ -50,7 +45,7 @@ namespace PhotoImporter
             {
                 ProcessDirectory(di, tbImportPicsFrom.Text, tbImportPicsTo.Text, tbImportVideosTo.Text);
             }
-            label1.Text = "Done...";
+            label1.Text = @"Done...";
         }
 
         private static void ProcessDirectory(DirectoryInfo dir, string importFromFolder, string importPicturesToFolder, string importVideosToFolder)
