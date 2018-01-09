@@ -1,2 +1,6 @@
-PhotoImporter/PhotoImporter/bin/
-PhotoImporter/PhotoImporter/obj/
+**/bin
+**/bin/Debug/
+**/bin/Release/
+**/obj/
+**/.vs
+**/packages
