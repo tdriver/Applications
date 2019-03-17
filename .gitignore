@@ -4,3 +4,6 @@
 **/obj/
 **/.vs
 **/packages
+*.picasa.ini
+desktop.ini
+*.user
