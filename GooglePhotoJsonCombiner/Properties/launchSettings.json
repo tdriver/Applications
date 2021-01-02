@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "GooglePhotoJsonCombiner": {
+      "commandName": "Project",
+      "commandLineArgs": "\"D:\\Downloads\\takeout-20210101T151702Z-001\\Takeout\\Google Photos\\Missing pics\""
+    }
+  }
+}
