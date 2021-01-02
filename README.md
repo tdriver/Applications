@@ -1,3 +1,10 @@
+# Google Photos JSON Combiner
+This .Net 5 tool reads Google photos .json files that get downloaded with your pictures, when you use Google Takeout to download many pictures at once.
+Currently it reads the json file, then copies the picture referenced in that file to a new folder and applies the originial creation date to the picture.  It also tracks errors
+and moves files with errors to their own folders.
+
+Example: GooglePhotoJsonCombiner "Path To Your Unzipped Google Takeout Folder with Json files"
+
 # PhotoImporter
 Moves photos and videos from a specified folder, into separate folders for photos and videos. The photos and videos are each put in dated folders based on the date taken (for photos) or date created (for videos).
 Example:
