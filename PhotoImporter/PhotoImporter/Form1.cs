@@ -37,18 +37,18 @@ namespace PhotoImporter
             label1.Text = @"Working...";
             // process the photos in the root directory
             DirectoryInfo dir = new DirectoryInfo(tbImportPicsFrom.Text);
-            ProcessDirectory(dir, tbImportPicsFrom.Text,tbImportPicsTo.Text,tbImportVideosTo.Text);
+            ProcessDirectory(dir, tbImportPicsFrom.Text,tbImportPicsTo.Text,tbImportVideosTo.Text,cbFilename.Checked);
 
             // now all the others
             var ed = dir.EnumerateDirectories("*.*", SearchOption.AllDirectories);
             foreach (var di in ed)
             {
-                ProcessDirectory(di, tbImportPicsFrom.Text, tbImportPicsTo.Text, tbImportVideosTo.Text);
+                ProcessDirectory(di, tbImportPicsFrom.Text, tbImportPicsTo.Text, tbImportVideosTo.Text,cbFilename.Checked);
             }
             label1.Text = @"Done...";
         }
 
-        private static void ProcessDirectory(DirectoryInfo dir, string importFromFolder, string importPicturesToFolder, string importVideosToFolder)
+        private static void ProcessDirectory(DirectoryInfo dir, string importFromFolder, string importPicturesToFolder, string importVideosToFolder, bool useFilename)
         {
             var files = dir.EnumerateFiles();
             foreach (var fi in files)
@@ -91,7 +91,21 @@ namespace PhotoImporter
                 }else if (fi.Extension.ToLower().Contains("mp4") || fi.Extension.ToLower().Contains("m4v") || fi.Extension.ToLower().Contains("mov") || fi.Extension.ToLower().Contains("avi") || fi.Extension.ToLower().Contains("3gp"))
                 {
                     // import it
-                    DateTime dateCreated = fi.LastWriteTime;
+                    DateTime dateCreated = DateTime.MinValue;
+                    if (useFilename)
+                    {
+                        // get the first 8 characters from the name of the file
+                        // parse to a date
+                        // set date created
+                        var year = fi.Name.Substring(0,4);
+                        var month = fi.Name.Substring(4,2);
+                        var day = fi.Name.Substring(6,2);
+                        dateCreated = new DateTime(int.Parse(year),int.Parse(month),int.Parse(day));
+                    }
+                    else
+                    {
+                        dateCreated = fi.LastWriteTime;
+                    } 
 
                     // check for folder with that name, create it if it doesn't exist
                     string videoOutputfolder = Path.Combine(importVideosToFolder,  $@"{dateCreated.Year}-{dateCreated.Month:00}-{dateCreated.Day:00}");
