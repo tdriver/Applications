@@ -42,11 +42,12 @@
             this.btnImportPicturesTo = new System.Windows.Forms.Button();
             this.btnImportVideosTo = new System.Windows.Forms.Button();
             this.ImportPicturesFromFolder = new System.Windows.Forms.FolderBrowserDialog();
+            this.cbFilename = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(103, 191);
+            this.button1.Location = new System.Drawing.Point(98, 187);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 0;
@@ -57,7 +58,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(110, 217);
+            this.label1.Location = new System.Drawing.Point(106, 219);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(0, 13);
             this.label1.TabIndex = 1;
@@ -72,7 +73,7 @@
             // 
             // tbImportPicsTo
             // 
-            this.tbImportPicsTo.Location = new System.Drawing.Point(12, 88);
+            this.tbImportPicsTo.Location = new System.Drawing.Point(12, 77);
             this.tbImportPicsTo.Name = "tbImportPicsTo";
             this.tbImportPicsTo.Size = new System.Drawing.Size(212, 20);
             this.tbImportPicsTo.TabIndex = 2;
@@ -80,7 +81,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(12, 72);
+            this.label2.Location = new System.Drawing.Point(12, 61);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(98, 13);
             this.label2.TabIndex = 3;
@@ -105,7 +106,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(12, 123);
+            this.label4.Location = new System.Drawing.Point(12, 112);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(92, 13);
             this.label4.TabIndex = 7;
@@ -113,7 +114,7 @@
             // 
             // tbImportVideosTo
             // 
-            this.tbImportVideosTo.Location = new System.Drawing.Point(12, 139);
+            this.tbImportVideosTo.Location = new System.Drawing.Point(12, 128);
             this.tbImportVideosTo.Name = "tbImportVideosTo";
             this.tbImportVideosTo.Size = new System.Drawing.Size(212, 20);
             this.tbImportVideosTo.TabIndex = 6;
@@ -130,7 +131,7 @@
             // 
             // btnImportPicturesTo
             // 
-            this.btnImportPicturesTo.Location = new System.Drawing.Point(230, 85);
+            this.btnImportPicturesTo.Location = new System.Drawing.Point(230, 74);
             this.btnImportPicturesTo.Name = "btnImportPicturesTo";
             this.btnImportPicturesTo.Size = new System.Drawing.Size(33, 23);
             this.btnImportPicturesTo.TabIndex = 9;
@@ -140,7 +141,7 @@
             // 
             // btnImportVideosTo
             // 
-            this.btnImportVideosTo.Location = new System.Drawing.Point(230, 136);
+            this.btnImportVideosTo.Location = new System.Drawing.Point(230, 125);
             this.btnImportVideosTo.Name = "btnImportVideosTo";
             this.btnImportVideosTo.Size = new System.Drawing.Size(33, 23);
             this.btnImportVideosTo.TabIndex = 10;
@@ -152,11 +153,22 @@
             // 
             this.ImportPicturesFromFolder.SelectedPath = "d:\\Pictures\\ToImport";
             // 
+            // cbFilename
+            // 
+            this.cbFilename.AutoSize = true;
+            this.cbFilename.Location = new System.Drawing.Point(30, 153);
+            this.cbFilename.Name = "cbFilename";
+            this.cbFilename.Size = new System.Drawing.Size(202, 17);
+            this.cbFilename.TabIndex = 11;
+            this.cbFilename.Text = "Use file name instead of creation time";
+            this.cbFilename.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 261);
+            this.ClientSize = new System.Drawing.Size(284, 243);
+            this.Controls.Add(this.cbFilename);
             this.Controls.Add(this.btnImportVideosTo);
             this.Controls.Add(this.btnImportPicturesTo);
             this.Controls.Add(this.btnImportPicturesFrom);
@@ -191,6 +203,7 @@
         private System.Windows.Forms.Button btnImportPicturesTo;
         private System.Windows.Forms.Button btnImportVideosTo;
         private System.Windows.Forms.FolderBrowserDialog ImportPicturesFromFolder;
+        private System.Windows.Forms.CheckBox cbFilename;
     }
 }
 

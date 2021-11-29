@@ -35,22 +35,28 @@ namespace PhotoImporter
         private void button1_Click(object sender, EventArgs e)
         {
             label1.Text = @"Working...";
+            var sb = new StringBuilder();
             // process the photos in the root directory
             DirectoryInfo dir = new DirectoryInfo(tbImportPicsFrom.Text);
-            ProcessDirectory(dir, tbImportPicsFrom.Text,tbImportPicsTo.Text,tbImportVideosTo.Text);
+            var filesProcessed = ProcessDirectory(dir, tbImportPicsFrom.Text,tbImportPicsTo.Text,tbImportVideosTo.Text,cbFilename.Checked);
+            sb.Append(filesProcessed);
 
             // now all the others
             var ed = dir.EnumerateDirectories("*.*", SearchOption.AllDirectories);
             foreach (var di in ed)
             {
-                ProcessDirectory(di, tbImportPicsFrom.Text, tbImportPicsTo.Text, tbImportVideosTo.Text);
+                filesProcessed = ProcessDirectory(di, tbImportPicsFrom.Text, tbImportPicsTo.Text, tbImportVideosTo.Text,cbFilename.Checked);
+                sb.Append(filesProcessed);
             }
+            var now = DateTime.Now;
+            File.WriteAllText(tbImportPicsFrom.Text + $"\\MoveRecord_{now.ToString("yyyy-MM-ddTHH_mm_ss")}.txt",sb.ToString());
             label1.Text = @"Done...";
         }
 
-        private static void ProcessDirectory(DirectoryInfo dir, string importFromFolder, string importPicturesToFolder, string importVideosToFolder)
+        private static string ProcessDirectory(DirectoryInfo dir, string importFromFolder, string importPicturesToFolder, string importVideosToFolder, bool useFilename)
         {
             var files = dir.EnumerateFiles();
+            var sb = new StringBuilder();
             foreach (var fi in files)
             {
                 if (fi.Extension.ToLower().Contains("png") || fi.Extension.ToLower().Contains("jpg") || fi.Extension.ToLower().Contains("gif"))
@@ -64,7 +70,7 @@ namespace PhotoImporter
                     else
                     {
                        pathName = Path.Combine(importFromFolder, fi.DirectoryName, fi.Name);
-                    }
+                    }                    
 
                     DateTime dateTaken = new DateTime(1950,01,01);
                     try
@@ -75,7 +81,8 @@ namespace PhotoImporter
                     {
                         // ignored
                     }
-
+                    sb.Append(pathName);
+                    sb.Append($", taken on {dateTaken.ToShortDateString()}: written to ");
 
                     // check for folder with that name, create it if it doesn't exist
                     string pictureOutputFolder = Path.Combine(importPicturesToFolder,$@"{dateTaken.Year}-{dateTaken.Month:00}-{dateTaken.Day:00}");
@@ -86,26 +93,49 @@ namespace PhotoImporter
 
                     if (!File.Exists(Path.Combine(pictureOutputFolder, fi.Name)))
                     {
-                        fi.MoveTo(Path.Combine(pictureOutputFolder, fi.Name));
+                        var loc = Path.Combine(pictureOutputFolder, fi.Name);
+                        fi.MoveTo(loc);
+                        sb.AppendLine(loc);
                     }
                 }else if (fi.Extension.ToLower().Contains("mp4") || fi.Extension.ToLower().Contains("m4v") || fi.Extension.ToLower().Contains("mov") || fi.Extension.ToLower().Contains("avi") || fi.Extension.ToLower().Contains("3gp"))
                 {
                     // import it
-                    DateTime dateCreated = fi.LastWriteTime;
+                    DateTime dateCreated = DateTime.MinValue;
+                    if (useFilename)
+                    {
+                        // get the first 8 characters from the name of the file
+                        // parse to a date
+                        // set date created
+                        var year = fi.Name.Substring(0,4);
+                        var month = fi.Name.Substring(4,2);
+                        var day = fi.Name.Substring(6,2);
+                        dateCreated = new DateTime(int.Parse(year),int.Parse(month),int.Parse(day));
+                    }
+                    else
+                    {
+                        dateCreated = fi.LastWriteTime;
+                    }
 
                     // check for folder with that name, create it if it doesn't exist
+                    var vidPathName = Path.Combine(importFromFolder, fi.Name);
                     string videoOutputfolder = Path.Combine(importVideosToFolder,  $@"{dateCreated.Year}-{dateCreated.Month:00}-{dateCreated.Day:00}");
+                    sb.Append(vidPathName);
+                    sb.Append($", created on {dateCreated.ToShortDateString()}: written to ");
                     if (!Directory.Exists(videoOutputfolder))
                     {
                         Directory.CreateDirectory(videoOutputfolder);
                     }
-
-                    if (!File.Exists(Path.Combine(videoOutputfolder,fi.Name)))
+                    var vidPath = Path.Combine(videoOutputfolder,fi.Name);
+                    if (!File.Exists(vidPath))
                     {
-                        fi.MoveTo(Path.Combine(videoOutputfolder, fi.Name));
+                        var loc = Path.Combine(videoOutputfolder, fi.Name);
+                        fi.MoveTo(loc);
+                        sb.AppendLine(loc);
                     }
                 }
+                
             }
+            return sb.ToString();
         }
 
         private void btnImportPicturesTo_Click(object sender, EventArgs e)
